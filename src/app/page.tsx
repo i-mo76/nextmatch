@@ -1,20 +1,50 @@
+import { auth } from '@/auth';
 import { Button } from "@heroui/button";
-import Link from "next/link";
-import { FaRegSmile } from "react-icons/fa";
+import Link from 'next/link';
+import { GiMatchTip } from 'react-icons/gi';
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
   return (
-    <>
-      <h1>Hello app!</h1>
-      <Button
-        as={Link}
-        href='/members'
-        color="primary"
-        variant="bordered"
-        startContent={<FaRegSmile size={20} />}      
-      >
-        click
-      </Button>
-    </>
+    <div className='flex flex-col justify-center items-center mt-20 gap-6 text-secondary'>
+      <GiMatchTip size={100} />
+      <h1 className='text-4xl font-bold'>Welcome to NextMatch</h1>
+      {session ? (<div>
+        <pre>
+          {JSON.stringify(session,null,2)}
+        </pre>
+        <Button
+          as={Link}
+          href='/members'
+          size='lg'
+          color='secondary'
+          variant='bordered'
+        >
+          Continue
+        </Button></div>
+      ) : (
+        <div className='flex flex-row gap-4'>
+          <Button
+            as={Link}
+            href='/login'
+            size='lg'
+            color='secondary'
+            variant='bordered'
+          >
+            Sign in
+          </Button>
+          <Button
+            as={Link}
+            href='/register'
+            size='lg'
+            color='secondary'
+            variant='bordered'
+          >
+            Register
+          </Button>
+        </div>
+      )}
+    </div>
   );
 }
