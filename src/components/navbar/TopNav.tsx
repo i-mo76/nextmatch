@@ -7,12 +7,14 @@ import NavLink from './NavLink'
 import { auth } from '@/auth'
 import UserMenu from './UserMenu'
 import { getUserInfoForNav } from '@/app/actions/userActions'
+import FiltersWrapper from './FiltersWrapper'
 
 export default async function TopNav() {
   const session = await auth();
   const userInfo = session?.user && await getUserInfoForNav()
   
   return (
+    <>
       <Navbar
           maxWidth='xl'
           className='bg-gradient-to-r from-purple-400 to-purple-700'
@@ -47,6 +49,8 @@ export default async function TopNav() {
                     </>
                 )}
         </NavbarContent>
-    </Navbar>
-  )
+      </Navbar>
+      <FiltersWrapper/>
+    </>
+      )
 }
