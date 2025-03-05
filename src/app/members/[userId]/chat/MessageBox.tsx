@@ -3,9 +3,9 @@
 import { MessageDto } from '@/types'
 import React, { useRef } from 'react'
 import clsx from 'clsx';
-import { Avatar } from '@heroui/avatar';
-import { transformImageUrl } from '@/lib/util';
+import { timeAgo, transformImageUrl } from '@/lib/util';
 import { useEffect } from 'react';
+import PresenceAvatar from '@/components/PresenceAvatar';
 
 type Props = {
     message: MessageDto;
@@ -14,11 +14,6 @@ type Props = {
 
 export default function MessageBox({ message, currentUserId }: Props) {
     const isCurrentUserSender = message.senderId === currentUserId;
-    if(isCurrentUserSender){
-        console.log(message.senderId)
-        console.log(message.senderName)
-        console.log(message.text)
-    }
     const messageEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -27,11 +22,12 @@ export default function MessageBox({ message, currentUserId }: Props) {
     
 
     const renderAvatar = () => (
-        <Avatar
-            name={message.senderName}
-            className='self-end'
-            src={transformImageUrl(message.senderImage) || '/images/user.png'}
-        />
+        <div className='self-end'>
+            <PresenceAvatar
+                src={transformImageUrl(message.senderImage) || '/images/user.png'}
+                userId={message.senderId}
+            />
+        </div>
     )
 
     const messageContentClasses = clsx(
@@ -47,7 +43,7 @@ export default function MessageBox({ message, currentUserId }: Props) {
             'justify-between': isCurrentUserSender
         })}>
             {message.dateRead && message.recipientId !== currentUserId ? (
-                <span className='text-xs text-black text-italic'>(Read 4 mins ago)</span>
+                <span className='text-xs text-black text-italic'>(Read {timeAgo(message.dateRead) })</span>
             ) : <div></div>}
             <div className='flex'>
                 <span className='text-sm font-semibold text-gray-900'>{message.senderName}</span>

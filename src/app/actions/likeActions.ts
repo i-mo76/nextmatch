@@ -2,7 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { getAuthUserId } from './authActions';
-// import { pusherServer } from '@/lib/pusher';
+import { pusherServer } from '@/lib/pusher';
 
 export async function toggleLikeMember(targetUserId: string, isLiked: boolean) {
     try {
@@ -34,12 +34,11 @@ export async function toggleLikeMember(targetUserId: string, isLiked: boolean) {
                 }
             });
 
-            // await pusherServer.trigger(`private-${targetUserId}`, 'like:new', {
-            //     name: like.sourceMember.name,
-            //     image: like.sourceMember.image,
-            //     userId: like.sourceMember.userId
-            // })
-            console.log(like);
+            await pusherServer.trigger(`private-${targetUserId}`, 'like:new', {
+                name: like.sourceMember.name,
+                image: like.sourceMember.image,
+                userId: like.sourceMember.userId
+            })
         }
     } catch (error) {
         console.log(error);
