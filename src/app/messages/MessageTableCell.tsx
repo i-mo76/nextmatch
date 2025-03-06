@@ -1,8 +1,10 @@
-// import PresenceAvatar from '@/components/PresenceAvatar';
+
+import AppModal from '@/components/AppModal';
 import PresenceAvatar from '@/components/PresenceAvatar';
 import { truncateString } from '@/lib/util';
 import { MessageDto } from '@/types'
-import { Button } from '@heroui/button';
+import { Button, ButtonProps } from '@heroui/button';
+import { useDisclosure } from '@heroui/react';
 import React from 'react'
 import { AiFillDelete } from 'react-icons/ai';
 
@@ -16,6 +18,16 @@ type Props = {
 
 export default function MessageTableCell({item, columnKey, isOutbox, deleteMessage, isDeleting}: Props) {
     const cellValue = item[columnKey as keyof MessageDto]
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const onConfirmDeleteMessage = () => {
+        deleteMessage(item);
+    }
+
+      const footerButtons: ButtonProps[] = [
+        {color: 'default', onClick: onClose, children: 'Cancel'},
+        {color: 'secondary', onClick: onConfirmDeleteMessage, children: 'Confirm'},
+    ];
 
     switch (columnKey) {
         case 'recipientName':
@@ -36,16 +48,26 @@ export default function MessageTableCell({item, columnKey, isOutbox, deleteMessa
                 </div>
             )
         case 'created':
-            return cellValue
+            return <div>{cellValue}</div>
         default:
             return (
-                <Button 
-                    isIconOnly variant='light'
-                    onPress={() => deleteMessage(item)}
-                    isLoading={isDeleting}
-                >
+                <>
+                    <Button 
+                        isIconOnly variant='light'
+                        onPress={() => onOpen()}
+                        isLoading={isDeleting}
+                    >
                     <AiFillDelete size={24} className='text-danger' />
-                </Button>
+                    </Button>
+                    <AppModal
+                        isOpen={isOpen}
+                        onClose={onClose}
+                        header='Please confirm this action'
+                        body={<div>Are you sure you want to delete this message? this can not be undone</div>}
+                        footerButtons={footerButtons}
+                    />
+                </>
+            
             )
     }
 }

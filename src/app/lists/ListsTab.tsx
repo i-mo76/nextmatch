@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useTransition } from 'react'
 import { Key } from 'react';
 import MemberCard from '../members/MemberCard';
-import LoadingComponent from '@/components/LoadingComponent';
+import { Spinner } from '@heroui/react';
 
 type Props = {
     members: Member[];
@@ -34,7 +34,8 @@ export default function ListsTab({ members, likeIds }: Props) {
     }
 
     return (
-        <div className='flex w-full flex-col mt-10 gap-5'>
+        <div className='flex w-full flex-col mt-10 gap-5 relative'>
+            {isPending && <Spinner color='secondary' className='absolute left-[480px]'/>}
             <Tabs
                 aria-label='Like tabs'
                 items={tabs}
@@ -43,11 +44,9 @@ export default function ListsTab({ members, likeIds }: Props) {
             >
                 {(item) => (
                     <Tab key={item.id} title={item.label}>
-                        {isPending ? (
-                            <LoadingComponent />
-                        ) : (
+                   
                             <>
-                                {members.length > 0 ? (
+                                {members.length > 0 && !isPending ? (
                                     <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8'>
                                         {members.map(member => (
                                             <MemberCard key={member.id} member={member} likeIds={likeIds} />
@@ -57,8 +56,6 @@ export default function ListsTab({ members, likeIds }: Props) {
                                     <div>No members for this filter</div>
                                 )}
                             </>
-                        )}
-
                     </Tab>
                 )}
             </Tabs>

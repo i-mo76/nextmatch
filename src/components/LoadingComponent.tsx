@@ -1,3 +1,5 @@
+"use client";
+
 import { Spinner } from '@heroui/spinner'
 import React from 'react'
 

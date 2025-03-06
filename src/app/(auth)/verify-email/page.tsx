@@ -4,14 +4,20 @@ import ResultMessage from '@/components/ResultMessage';
 import { Spinner } from '@heroui/spinner';
 import { MdOutlineMailOutline } from 'react-icons/md';
 
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
+// type Props = {
+//   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+// };
 
-export default async function VerifyEmailPage({ searchParams }: Props) {
+// export default async function VerifyEmailPage({ searchParams }: Props) {
+//   const { token } = await searchParams;
+  
+//   const result = await verifyEmail(token as string);  
+
+export default async function VerifyEmailPage({ searchParams }: { searchParams: Promise<{ token: string }>}) {
+  
   const { token } = await searchParams;
   
-  const result = await verifyEmail(token as string);  
+  const result = await verifyEmail(token);  
 
     return (
         <CardWrapper
