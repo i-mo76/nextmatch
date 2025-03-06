@@ -10,7 +10,7 @@ async function seedMembers() {
             email: member.email,
             emailVerified: new Date(),
             name: member.name,
-            passwordHash: await hash('orange', 10),
+            passwordHash: await hash('Orange321!', 10),
             image: member.image,
             profileComplete: true,
             member: {
@@ -42,7 +42,7 @@ async function seedAdmin() {
             email: 'admin@test.com',
             emailVerified: new Date(),
             name: 'Admin',
-            passwordHash: await hash('orange', 10),
+            passwordHash: await hash('Orange123!', 10),
             role: 'ADMIN'
         }
     })
@@ -50,11 +50,11 @@ async function seedAdmin() {
 
 async function main() {
     // console.log('Check environement');
-    // if (process.env.RUN_SEED === 'true' || process.env.NODE_ENV === 'development') {
+    if (process.env.RUN_SEED === 'true' || process.env.NODE_ENV === 'development') {
         console.log('Seed Running');
         await seedMembers();
         await seedAdmin();
-    // }
+    }
 }
 
 main().catch(e => {
