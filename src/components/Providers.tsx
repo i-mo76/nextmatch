@@ -26,7 +26,7 @@ export default function Providers({ userId, children }: { userId: string | null,
     }
   }, [setUnreadCount, userId])
 
-  usePresenceChannel();
+  usePresenceChannel(userId);
   useNotificationChannel(userId);
   return (
       <HeroUIProvider>
