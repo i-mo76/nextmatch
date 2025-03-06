@@ -24,7 +24,7 @@ export default async function PhotosPage({ params }:  { params: Promise<{ userId
                         <div key={photo.id}>
                             <Image 
                                 width={300}
-                                height={300}
+                                // height={300}
                                 src={photo.url}
                                 alt='Image of member'
                                 className='object-cover aspect-square'
