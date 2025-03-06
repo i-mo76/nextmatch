@@ -10,6 +10,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { GiPadlock } from 'react-icons/gi'
 import { toast } from 'react-toastify';
+import SocialLogin from './SocialLogin';
 
 export default function LoginForm() {
     const router = useRouter();
@@ -63,7 +64,7 @@ export default function LoginForm() {
                       <Button isLoading={isSubmitting} isDisabled={!isValid} fullWidth color='secondary' type='submit'>
                             Login
                         </Button>
-                        {/* <SocialLogin /> */}
+                        <SocialLogin />
                         <div className='flex justify-center hover:underline text-sm'>
                             <Link href='/forgot-password'>Forgot password?</Link>
                         </div>

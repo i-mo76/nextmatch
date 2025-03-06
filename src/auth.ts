@@ -2,7 +2,7 @@ import NextAuth, { NextAuthConfig } from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import authConfig from "./auth.config"
 import { prisma } from './lib/prisma'
-// import { Role } from '@prisma/client'
+import { Role } from '@prisma/client'
 
 export const { handlers: {GET, POST}, auth, signIn, signOut } = NextAuth({
   callbacks: {
@@ -17,8 +17,8 @@ export const { handlers: {GET, POST}, auth, signIn, signOut } = NextAuth({
     async session({token, session}) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
-        // session.user.profileComplete = token.profileComplete as boolean;
-        // session.user.role = token.role as Role;
+        session.user.profileComplete = token.profileComplete as boolean;
+        session.user.role = token.role as Role;
       }
       return session;
     }

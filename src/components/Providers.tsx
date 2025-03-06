@@ -9,7 +9,7 @@ import { ReactNode, useCallback, useEffect, useRef } from 'react'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Providers({ userId, children }: { userId: string | null, children: ReactNode }) {
+export default function Providers({ children, userId, profileComplete}: { children: ReactNode, userId: string | null, profileComplete: boolean }) {
   const isUnreadCountSet = useRef(false);
   const  updateUnreadCount  = useMessageStore(state => (state.updateUnreadCount));
 
@@ -26,8 +26,8 @@ export default function Providers({ userId, children }: { userId: string | null,
     }
   }, [setUnreadCount, userId])
 
-  usePresenceChannel(userId);
-  useNotificationChannel(userId);
+  usePresenceChannel(userId, profileComplete);
+  useNotificationChannel(userId, profileComplete);
   return (
       <HeroUIProvider>
            <ToastContainer position='bottom-right' hideProgressBar className='z-50' />

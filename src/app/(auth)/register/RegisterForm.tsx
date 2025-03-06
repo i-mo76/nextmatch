@@ -12,7 +12,7 @@ import { GiPadlock } from 'react-icons/gi';
 import UserDetailsForm from './UserDetailsForm';
 import ProfileForm from './ProfileForm';
 import { useRouter } from 'next/navigation';
-// import { ZodObject, ZodSchema } from 'zod';
+import { ZodSchema } from 'zod';
 
 const stepSchemas = [registerSchema, profileSchema];
 
@@ -22,7 +22,7 @@ export default function RegisterForm() {
     const currentValidationSchema = stepSchemas[activeStep];
 
     const methods = useForm<RegisterSchema>({
-        resolver: zodResolver(currentValidationSchema),
+        resolver: zodResolver(currentValidationSchema as ZodSchema),
         mode: 'onTouched'
     });
 
